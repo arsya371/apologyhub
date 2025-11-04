@@ -9,7 +9,7 @@ interface HeaderProps {
   siteName?: string;
 }
 
-export function Header({ siteName = "I'm Sorry" }: HeaderProps) {
+export function Header({ siteName = "ApologyHub" }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-b border-white/20 dark:border-gray-700/30">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -32,7 +32,7 @@ export function Header({ siteName = "I'm Sorry" }: HeaderProps) {
               href={ROUTES.submit}
               className="rounded-lg bg-blue-600 hover:bg-blue-700 px-6 py-2 text-sm font-medium text-white shadow-sm transition-all"
             >
-              Submit Apology
+              Submit
             </Link>
           </motion.div>
           <ThemeToggle />

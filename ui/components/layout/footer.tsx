@@ -2,7 +2,7 @@ interface FooterProps {
   siteName?: string;
 }
 
-export function Footer({ siteName = "I'm Sorry" }: FooterProps) {
+export function Footer({ siteName = "ApologyHub" }: FooterProps) {
   return (
     <footer className="backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border-t border-white/20 dark:border-gray-700/30 py-8">
       <div className="container px-4">

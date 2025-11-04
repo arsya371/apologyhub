@@ -24,7 +24,7 @@ model Apology {
 
 model Settings {
   id               String   @id @default(cuid())
-  siteName         String   @default("I'm Sorry")
+  siteName         String   @default("ApologyHub")
   announcement     String?  @db.Text
   showAnnouncement Boolean  @default(false)
   maxApologyLength Int      @default(500)

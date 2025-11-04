@@ -1,4 +1,4 @@
-# Setup Guide - I'm Sorry Platform
+# Setup Guide - ApologyHub Platform
 
 This guide provides detailed instructions for setting up the I'm Sorry anonymous apology platform on your local machine or server.
 

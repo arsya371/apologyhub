@@ -1,4 +1,4 @@
-# I'm Sorry - Anonymous Apology Platform
+# ApologyHub - Anonymous Apology Platform
 
 ApologyHub platform built with Next.js 14, Prisma, and shadcn/ui. Users can submit, browse, and share anonymous apologies with built-in security features and comprehensive admin controls.
 

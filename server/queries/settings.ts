@@ -7,7 +7,7 @@ export async function getSettings() {
     settings = await prisma.settings.create({
       data: {
         id: "default",
-        siteName: "I'm Sorry",
+        siteName: "ApologyHub",
         maxApologyLength: 500,
         enableModeration: true,
       },

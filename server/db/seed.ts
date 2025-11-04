@@ -25,7 +25,7 @@ async function main() {
     update: {},
     create: {
       id: "default",
-      siteName: "I'm Sorry",
+      siteName: "ApologyHub",
       maxApologyLength: 500,
       enableModeration: true,
     },
