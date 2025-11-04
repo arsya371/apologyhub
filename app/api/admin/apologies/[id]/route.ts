@@ -6,7 +6,7 @@ import { updateApology, deleteApology } from "@/server/mutations/apologies";
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -18,6 +18,7 @@ export async function PUT(
       );
     }
 
+    const { id } = await params;
     const body = await request.json();
     const validation = apologyUpdateSchema.safeParse(body);
 
@@ -28,7 +29,7 @@ export async function PUT(
       );
     }
 
-    const apology = await updateApology(params.id, validation.data);
+    const apology = await updateApology(id, validation.data);
 
     return NextResponse.json(apology);
   } catch (error) {
@@ -42,7 +43,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -54,7 +55,8 @@ export async function DELETE(
       );
     }
 
-    await deleteApology(params.id);
+    const { id } = await params;
+    await deleteApology(id);
 
     return NextResponse.json({ success: true });
   } catch (error) {

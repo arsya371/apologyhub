@@ -5,22 +5,23 @@ import { checkRequestSecurity } from "@/server/services/security-middleware";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const securityCheck = await checkRequestSecurity(request, {
       checkBlocked: true,
       checkSuspicious: false,
       checkBots: true,
       logRequest: false,
-      endpoint: `/api/apologies/${params.id}`,
+      endpoint: `/api/apologies/${id}`,
     });
 
     if (!securityCheck.allowed && securityCheck.response) {
       return securityCheck.response;
     }
 
-    const apology = await getApologyById(params.id);
+    const apology = await getApologyById(id);
 
     if (!apology) {
       return NextResponse.json(
@@ -30,7 +31,7 @@ export async function GET(
     }
 
     await Promise.all([
-      incrementApologyViews(params.id),
+      incrementApologyViews(id),
       trackView(),
     ]);
 

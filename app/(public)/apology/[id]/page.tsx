@@ -8,9 +8,10 @@ import { trackView } from "@/server/services/analytics";
 import { ArticleJsonLd } from "@/ui/components/seo/json-ld";
 import { ROUTES } from "@/lib/constants";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const [apology, settings] = await Promise.all([
-    getApologyById(params.id),
+    getApologyById(id),
     getPublicSettings(),
   ]);
 
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
   const title = `Apology ${apology.toWho ? `to ${apology.toWho}` : ""}`;
   const description = apology.content.substring(0, 160);
-  const url = settings.siteUrl ? `${settings.siteUrl}/apology/${params.id}` : undefined;
+  const url = settings.siteUrl ? `${settings.siteUrl}/apology/${id}` : undefined;
 
   return {
     title,
@@ -46,9 +47,10 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
   };
 }
 
-export default async function ApologyPage({ params }: { params: { id: string } }) {
+export default async function ApologyPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const [apology, settings] = await Promise.all([
-    getApologyById(params.id),
+    getApologyById(id),
     getPublicSettings(),
   ]);
 
@@ -58,12 +60,12 @@ export default async function ApologyPage({ params }: { params: { id: string } }
 
   // Increment views
   await Promise.all([
-    incrementApologyViews(params.id),
+    incrementApologyViews(id),
     trackView(),
   ]);
 
   // const relatedApologies = await getRecentApologies(3);
-  const url = settings.siteUrl ? `${settings.siteUrl}/apology/${params.id}` : undefined;
+  const url = settings.siteUrl ? `${settings.siteUrl}/apology/${id}` : undefined;
 
   return (
     <>
