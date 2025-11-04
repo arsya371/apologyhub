@@ -2,6 +2,10 @@
 
 ApologyHub platform built with Next.js 14, Prisma, and shadcn/ui. Users can submit, browse, and share anonymous apologies with built-in security features and comprehensive admin controls.
 
+<div align="center">
+  <img width="1896" alt="ApologyHub Screenshot" src="https://github.com/user-attachments/assets/da8c6dc6-c363-4f76-aafd-ed9e133ff790" />
+</div>
+
 ## Features
 
 ### Public Features
