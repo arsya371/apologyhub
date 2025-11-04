@@ -1,0 +1,143 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model Apology {
+  id        String   @id @default(cuid())
+  content   String   @db.Text
+  toWho     String?
+  fromWho   String?
+  ipAddress String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  views     Int      @default(0)
+
+  @@index([createdAt])
+  @@index([toWho])
+  @@map("apologies")
+}
+
+model Settings {
+  id               String   @id @default(cuid())
+  siteName         String   @default("I'm Sorry")
+  announcement     String?  @db.Text
+  showAnnouncement Boolean  @default(false)
+  maxApologyLength Int      @default(500)
+  enableModeration Boolean  @default(true)
+  
+  // SEO Fields
+  siteDescription  String?  @db.Text
+  siteKeywords     String?  @db.Text
+  siteUrl          String?
+  ogImage          String?
+  twitterHandle    String?
+  twitterCard      String?  @default("summary_large_image")
+  
+  updatedAt        DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+
+  @@map("admins")
+}
+
+model Analytics {
+  id          String   @id @default(cuid())
+  date        DateTime @default(now()) @db.Date
+  visits      Int      @default(0)
+  submissions Int      @default(0)
+  views       Int      @default(0)
+
+  @@unique([date])
+  @@index([date])
+  @@map("analytics")
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  details   String?  @db.Text
+  ipAddress String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@map("activity_logs")
+}
+
+model BlockedIP {
+  id               String   @id @default(cuid())
+  ipAddress        String   @unique
+  reason           String   @db.Text
+  blockedAt        DateTime @default(now())
+  blockedBy        String?  // "system" or admin email
+  expiresAt        DateTime? // Optional expiration
+  cloudflareRuleId String?  // Cloudflare rule ID for unblocking
+  isActive         Boolean  @default(true)
+  requestCount     Int      @default(0) // Number of requests before blocking
+  lastRequestAt    DateTime?
+  
+  @@index([ipAddress])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@map("blocked_ips")
+}
+
+model SecurityLog {
+  id          String   @id @default(cuid())
+  ipAddress   String
+  action      String   // "rate_limit_exceeded", "spam_detected", "blocked", etc.
+  endpoint    String?
+  userAgent   String?  @db.Text
+  details     String?  @db.Text
+  severity    String   @default("low") // "low", "medium", "high", "critical"
+  createdAt   DateTime @default(now())
+  
+  @@index([ipAddress])
+  @@index([action])
+  @@index([severity])
+  @@index([createdAt])
+  @@map("security_logs")
+}
+
+model AllowedIP {
+  id          String   @id @default(cuid())
+  ipAddress   String   @unique
+  description String   @db.Text
+  addedAt     DateTime @default(now())
+  addedBy     String?  // Admin email or "system"
+  isActive    Boolean  @default(true)
+  expiresAt   DateTime? // Optional expiration
+  
+  @@index([ipAddress])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@map("allowed_ips")
+}
+
+model ProfanityWord {
+  id        String   @id @default(cuid())
+  word      String   @unique
+  language  String   // "en" or "id"
+  severity  String   @default("medium") // "low", "medium", "high"
+  isActive  Boolean  @default(true)
+  addedBy   String?  // Admin email or "system"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@index([language])
+  @@index([isActive])
+  @@index([word])
+  @@map("profanity_words")
+}

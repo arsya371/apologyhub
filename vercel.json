@@ -1,0 +1,5 @@
+{
+  "installCommand": "npm install --include=dev",
+  "buildCommand": "next build",
+  "framework": "nextjs"
+}
